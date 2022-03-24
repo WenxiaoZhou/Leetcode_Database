@@ -1,4 +1,4 @@
-# Leetcode_DatabaseQuestions
+# Leetcode Database Questions
 
 Within this repository, I will add my logic and answers when practicing on Leetcode Database Questions 
 
