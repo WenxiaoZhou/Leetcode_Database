@@ -5,28 +5,24 @@ date: "3/23/2022"
 output: html_document
 ---
 
-*175. Combine Two Tables*\
+**175. Combine Two Tables**\
 Table `Person`: personId(int,primary key), lastName(varchar), firstName(varchar)\
 This table contains information about the ID of some persons and their names.\
 Table `Address`: addressId(int,primary key), personId(int), city(varchar), state(varchar)
 Each row contains information about the city and state of one person with ID=PersonId
 
 &NewLine;
-Goal: Write an SQL query to report the `first name, last name, city, and state` of each person in the `Person` table. If the address of a `personId` is not present in the Address table, report null instead.\
+**Goal:** Write an SQL query to report the `first name, last name, city, and state` of each person in the `Person` table. If the address of a `personId` is not present in the Address table, report null instead.\
 Return the result table in any order.
 
-```
-
-```
-
 &NewLine;
 &NewLine;
 
-*181. Employees Earning More Than Their Managers*\
+**181. Employees Earning More Than Their Managers**\
 Table `Employee`: id(int,primary key), name(varchar), salary(int), managerId(int)\
 
 &NewLine;
-Goal: Write an SQL query to find the employees who earn more than their managers.\
+**Goal:** Write an SQL query to find the employees who earn more than their managers.\
 Return the result table in any order.
 
 
@@ -35,9 +31,7 @@ Return the result table in any order.
 
 
 
-
-
-*182. Duplicate Emails*\
+**182. Duplicate Emails**\
 Table `Person`: id(int, primary key), email(varchar)\
 Each row of this table contains an email. The emails will not contain uppercase letters.\
 
@@ -49,24 +43,24 @@ Goal: Write an SQL query to report all the duplicate emails. Return the result t
 &NewLine;
 &NewLine;
 
-*183. Customers Who Never Order*\
+**183. Customers Who Never Order**\
 Table `Customers`: id(int, primary key), name(varchar)\
 Table `Orders`: id(int,primary key), customerId(int, foreign key of the ID from Customers table)\
 Each row of this table indicates the ID of an order and the ID of the customer who ordered it.
  
 &NewLine;
-Goal: Write an SQL query to report all customers who never order anything.Return the result table in any order.
+**Goal:** Write an SQL query to report all customers who never order anything.Return the result table in any order.
 
 
 
 &NewLine;
 &NewLine;
 
-*196. Delete Duplicate Emails*\
+**196. Delete Duplicate Emails**\
 Table `Person`: id(int, primary key), email(varchar)\
 
 &NewLine;
-Goal: Write an SQL query to delete all the duplicate emails, keeping only one unique email with the smallest id. Note that you are supposed to write a DELETE statement and not a SELECT one.\
+**Goal:** Write an SQL query to delete all the duplicate emails, keeping only one unique email with the smallest id. Note that you are supposed to write a DELETE statement and not a SELECT one.\
 Return the result table in any order.
 
 
@@ -74,7 +68,7 @@ Return the result table in any order.
 &NewLine;
 
 
-*197. Rising Temperature*\
+**197. Rising Temperature**\
 Table `Weather`: id(int, primary key), recordDate(date), temperature(int).\
 This table contains information about the temperature on a certain day.\
 
@@ -87,14 +81,46 @@ Return the result table in any order.
 &NewLine;
 
 
-*577. Employee Bonus*\
+
+**511. Game Play Analysis I**\
+Table `Activity`: (player_id,event_date) is the primary key, device_id(int),games_played(int).\
+Each row is a record of a player who logged in and played a number of games (possibily 0) before logging out on someday using some device.\
+
+
+&NewLine;
+**Goal:** Write an SQL query to report the first login date for each player. \
+Result in any order.\
+
+
+
+
+&NewLine;
+&NewLine;
+
+
+
+**512. Game Play Analysis II**\
+Table `Activity`: (player_id,event_date) is the primary key. device_id(int), games_played(int).\
+Each row is a record of a player who logged in and played a number of games (possibily 0) before logging out on someday using some device.\
+
+
+&NewLine;
+**Goal:** Write an SQL query to report the device that is first logged in for each player.\
+Return the results in any order.\
+
+
+&NewLine;
+&NewLine;
+
+
+**577. Employee Bonus**\
 Table `Employee`: empId(int, primary key), name(varchar), supervisor(int), salary(int).\
 Each row of this table indicates the name and the ID of an employee in addition to their salary and the id of their manager.\
 Table `Bonus`: empId(int, primary key, foreign key to empId from the Employee table), bonus(int).\
 Each row of this table contains the id of an employee and their respective bonus.\
 
 &NewLine;
-Goal:Write an SQL query to report the name and bonus amount of each employee with a bonus less than 1000.\
+**Goal:**Write an SQL query to report the name and bonus amount of each employee with a bonus less than 1000.\
 Return the result table in any order.
 
 
@@ -103,7 +129,7 @@ Return the result table in any order.
 &NewLine;
 
 
-*584. FindCustomer Referee*\
+**584. FindCustomer Referee**\
 Table `Customer`: id(int, primary key), name(varchar),referee_id(int)\
 Each row of this table indicates the id of a customer, their name, and the id of the customer who referred them.
 
@@ -115,11 +141,11 @@ Return the result table in any order.
 &NewLine;
 &NewLine;
 
-*586. Customer Placing the Largest Number of Orders*\
+**586. Customer Placing the Largest Number of Orders**\
 Table `Orders`: order_numeber(int,primary key), customer_number(int).\
 
 &NewLine;
-Goal: Write an SQL query to find the customer_number for the customer who has placed the largest number of orders.\
+**Goal:** Write an SQL query to find the customer_number for the customer who has placed the largest number of orders.\
 The test cases are generated so that exactly one customer will have placed more orders than any other customer.
 
 
@@ -127,15 +153,100 @@ The test cases are generated so that exactly one customer will have placed more 
 &NewLine;
 &NewLine;
 
-*595: Big Countries*\
+**595. Big Countries**\
 Table `World`: name(varchar, primary key), continent(varchar), area(int), population(int), gdp(int).\
 A country is big if:\
-* it has an area of at least 3000000 $km^{2} or\
+* it has an area of at least 3000000 $km^{2}$ or\
 * it has a population at least 25000000
 
 &NewLine;
-Goal: Write an SQL query to report the name, population, and area of the big countries.\
+**Goal:** Write an SQL query to report the name, population, and area of the big countries.\
 Return the result table in any order.
+
+
+&NewLine;
+&NewLine;
+
+
+**596. Classes More Than 5 Students**\
+
+
+
+&NewLine;
+&NewLine;
+
+
+**597. Friend Requests I: Overall Acceptance Rate**\
+
+
+&NewLine;
+&NewLine;
+
+
+
+**603. Consecutive Available Seats**\
+
+
+&NewLine;
+&NewLine;
+
+
+
+**607. Sales Person**\
+
+
+&NewLine;
+&NewLine;
+
+
+
+**610. Triangle Judgement**\
+
+
+&NewLine;
+&NewLine;
+
+
+
+**613. Shortest Distance in a Line**\
+
+
+&NewLine;
+&NewLine;
+
+
+
+**619. Biggest Single Number**\
+
+
+&NewLine;
+&NewLine;
+
+
+
+**620. Not Boring Movies**\
+
+
+&NewLine;
+&NewLine;
+
+
+
+**627. Swap Salary**\
+
+
+
+&NewLine;
+&NewLine;
+
+
+
+**1050. Actors and Directors Who Copperated At Least Three Times**\
+
+
+&NewLine;
+&NewLine;
+
 
 
 
