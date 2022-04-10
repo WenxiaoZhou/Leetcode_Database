@@ -311,14 +311,24 @@ Return the result table in any order.
 
 
 **1068. Product Sales Analysis I**\
+Table `Sales`:(sale_id,year) is primary key, product_id is foreign key to `Product` Table. Each row of this table shows a sale on the product product_id in a certain year. Note the price is per unit.\
+Table `Product`: product_id(int, primary key),product_name(varchar)\
 
+&NewLine;
+**Goal:** Write an SQL query to report the total quantity sold for every product id.\
+Return the results in any order.\
 
 &NewLine;
 &NewLine;
 
 
 **1069. Product Sales Analysis II**\
+Table `Sales`:(sale_id,year) is primary key, product_id is foreign key to `Product` Table. Each row of this table shows a sale on the product product_id in a certain year. Note the price is per unit.\
+Table `Product`: product_id(int, primary key),product_name(varchar)\
 
+&NewLine;
+**Goal:** Write an SQL query to report the product_name, year, price for each sale_id in the `Sales` table.\
+Return the results in any order.\
 
 &NewLine;
 &NewLine;
@@ -326,28 +336,48 @@ Return the result table in any order.
 
 
 **1075. Project Employees I**\
+Table `Project`: (project_id,employee_id) is the primary key, employee_id is a foreign key to `Employee` table. Each row indicates the employee with employee_id is working on the project with project_id.\
+Table `Employee`: employee_id is the primary key, name(varchar),experience_years(int)\
 
+&NewLine;
+**Goal:** Write an SQL query to report the average experience years of all the employees for each project, rounded to 2 digits.\
+Return the result table in any order.\
 
 &NewLine;
 &NewLine;
 
 
 **1076. Project Employees II**\
+Table `Project`: (project_id,employee_id) is the primary key, employee_id is a foreign key to `Employee` table. Each row indicates the employee with employee_id is working on the project with project_id.\
+Table `Employee`: employee_id is the primary key, name(varchar),experience_years(int)\
 
+&NewLine;
+**Goal:** Write an SQL query to report all the projects taht have the most employees.\
+Return the results in any order.\
 
 &NewLine;
 &NewLine;
 
 
 **1082. Sales Analysis I**\
+Table `Product`: product_id(int,primary key),product_name(varchar),unit_price(int).\
+Table `Sales`: seller_id(int), product_id(foreign key to `Product` table, buyer_id(int),sale_date(int),quantity(int),price(int). There is no primary key, it cna have repeated rows.\
 
+&NewLine;
+**Goal:** Write an SQL query to report the best seller by total sales price, if there is a tie, report them all.\
+Return the result table in any order.\
 
 &NewLine;
 &NewLine;
 
 
 **1083. Sales Analysis II**\
+Table `Product`: product_id(int,primary key),product_name(varchar),unit_price(int).\
+Table `Sales`: seller_id(int), product_id(foreign key to `Product` table, buyer_id(int),sale_date(int),quantity(int),price(int). There is no primary key, it cna have repeated rows.\
 
+&NewLine;
+**Goal:** Write an SQL query to report the buyers who have bought S8 but not iPhone. Note that S8 and iPhone are products present in the `Product` table.\
+Return the result table in any order.\
 
 &NewLine;
 &NewLine;
@@ -355,17 +385,200 @@ Return the result table in any order.
 
 
 **1084. Sales Analysis III**\
+Table `Product`: product_id(int,primary key),product_name(varchar),unit_price(int).\
+Table `Sales`: seller_id(int), product_id(foreign key to `Product` table, buyer_id(int),sale_date(int),quantity(int),price(int). There is no primary key, it cna have repeated rows.\
 
+&NewLine;
+**Goal:** Write an SQL query to report the products that were only sold in the spring of 2019. That is, between 2019-01-01 and 2019-03-31 inclusive.\
+Return the result table in any order.\
 
 &NewLine;
 &NewLine;
 
 
 
+**1113. Reported Posts**\
+
+&NewLine;
+&NewLine;
 
 
 
+**1141. User Activity for the Past 30 Days I**\
 
+&NewLine;
+&NewLine;
+
+
+
+**1142. User Activity for the Past 30 Days II**\
+
+&NewLine;
+&NewLine;
+
+**1148. Article ViewsI**\
+
+&NewLine;
+&NewLine;
+
+
+**1173. Immediate Food Delivery I**\
+
+&NewLine;
+&NewLine;
+
+**1179. Reformat Department Table**\
+
+&NewLine;
+&NewLine;
+
+**1211. Queries Quality and Percentage**\
+
+&NewLine;
+&NewLine;
+
+**1241. Number of Comments per Post**\
+
+&NewLine;
+&NewLine;
+
+**1251. Average Selling Price**\
+
+&NewLine;
+&NewLine;
+
+
+**1280. Students and Examinations**\
+
+&NewLine;
+&NewLine;
+
+
+**1294. Weather Type in Each Country**\
+
+&NewLine;
+&NewLine;
+
+**1303. Find the Team Size**\
+
+&NewLine;
+&NewLine;
+
+
+**1322. Ads Performance**\
+Table `Ads`: (ad_id,user_id) is the primary key. Each row of this table contains the ID of an Ad, the ID of a user, and the action taken by this user regarding to the Ad. The action column is an ENUM type of ('Clicked','Viewed','Ignored').\
+
+A company is running Ads and wants to calculate the performance of each Ad. Performance of the Ad is measured using Click-through rate(CTR) where:
+
+$$CTR= \begin{cases}
+ 0 & \text{ if } clicks+views=0 \\ 
+ \frac{clicks}{clicks+views}\times 100& \text{ if } otherwise
+\end{cases}$$
+
+&NewLine;
+**Goal:** Write an SQL query to find the ctr of each Ad. Round ctr to two decimal points.\
+Return the result table ordered by ctr in descending order and by ad_id in ascending order in case of a tie.\
+
+&NewLine;
+&NewLine;
+
+
+
+**1327. List the Products Ordered In a Period**\
+Table `Products`: product_id(int,primary key),product_name(varchar),product_category(varchar). This table contains data about the company's products.\
+Table `Orders`: product_id(int, foreign key to Products table),order_date(date),unit(int). There is no primary key for this table, it may contains duplicate rows.\
+
+&NewLine;
+**Goal:** Write an SQL query to get the names of products that have at least 100 units ordered in February 2020 and their amount.\
+Return result table in any order.\
+
+
+&NewLine;
+&NewLine;
+
+
+**1350. Studnets With Invalid Departments**\
+Table `Departments`: id(int,primary key), name(varchar)\
+Table `Students`: id(int,primary key), name(varchar), department_id(int)\
+
+&NewLine;
+**Goal:** Write an SQL query to find the id and the name of all students who are enrolled in departments that no longer exist.\
+Return the result table in any order.\
+
+
+&NewLine;
+&NewLine;
+
+**1378. Replace Employee ID with the Unique Identifier**\
+Table `Employees`: id(int,primary key), name(varchar)\
+Table `EmployeeUNI`: (id,unique_id) is the primary key. Each row contains the id and the corresponding unique id of an employee in the company.\
+
+&NewLine;
+**Goal:** Write an SQL query to show the unique ID of each user, If a user does not have a unique ID replace just show null.\
+Return the result table in any order.\
+
+&NewLine;
+&NewLine;
+
+
+**1407. Top Travellers**\
+Table `Users`: id(int,primary key),name(varchar)\
+Table `Rides`: id(int, primary key), user_id(int), distance(int)\
+
+&NewLine;
+**Goal:** Write an SQL query to report the distance traveled by each user.\
+Return the result table ordered by travelled_distance in descending order, if two or more users traveled the same distance, order them by their `name` in ascending order.\
+
+&NewLine;
+&NewLine;
+
+
+**1421. NPV Queries**\
+Table `NPV`: (id,year) is the primary key, npv(int). The table has information about the id and the year of each inventory and the corresponding net present value.\
+Table `Queries`: (id,year) is the primary key. The table has information about the id and the year of each inventory query.\
+
+&NewLine;
+**Goal:** Write an SQL query to find the `npv` of each query of the `Queries` table.\
+Return the table in any order.\
+
+&NewLine;
+&NewLine;
+
+
+**1435. Create a Session Bar Chart**\
+Table `Sessions`: session_id(int,primary key),duration(int,is the time in seconds that a user has visited the application)\
+
+&NewLine;
+**Goal:** Write an SQL query to report how long a user visits your application. You decided to create bins of "[0-5>", "[5-10>", "[10-15>", and "15 minutes or more" and count the number of sessions on it.\
+Write an SQL query to report the (bin, total).\
+Return the result table in any order.\
+
+&NewLine;
+&NewLine;
+
+
+**1484. Group Sold Products By the Date**\
+Table `Activities`: sell_date(date),product(varchar). There is no primary key for the table, it may contain duplicates.\
+
+&NewLine;
+**Goal:** Write an SQL query to find for each date the number of different products sold and their names.\
+The sold products names for each date should be sorted lexicographically.\
+Return the result table ordered by `sell_date`.\
+
+&NewLine;
+&NewLine;
+
+
+**1495. Friendly Movies Streamed Last Month**\
+Table `TVProgram`: (program_date,content_id) is the primary key. content_id(int), is the id of the program in some channel on the TV.\
+Table `Content`: content_id(varchar,primary key), title(varchar),Kids_content(enum,'Y' means the content for kids otherwise 'N' is not content for kids), content_type(varchar)\
+
+&NewLine;
+**Goal:** Write an SQL query to report distinct titles of the kid-friendly movies streamed in June 2020.\
+Return the result table in any order.\
+
+&NewLine;
+&NewLine;
 
 
 
