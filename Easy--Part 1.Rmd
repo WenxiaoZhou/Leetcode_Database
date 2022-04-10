@@ -398,6 +398,13 @@ Return the result table in any order.\
 
 
 **1113. Reported Posts**\
+Table `Actions`: user_id(int),post_id(int),action_date(date),action(enum),extra(varchar). There is no primary key for the table, it may have duplicate rows.\
+The action column is an ENUM type of ('view', 'like', 'reaction', 'comment', 'report', 'share').\
+The extra column has optional information about the action, such as a reason for the report or a type of reaction.\
+
+&NewLine;
+**Goal:** Write an SQL query to report the number of posts reported yesterday for each report reason. Assume today is 2019-07-05.\
+Return the result table in any order.\
 
 &NewLine;
 &NewLine;
@@ -405,6 +412,13 @@ Return the result table in any order.\
 
 
 **1141. User Activity for the Past 30 Days I**\
+Table `Activity`: user_id(int), session_id(int), activity_date(date), activity_type(enum). There is no primary key for this table, it may have duplicate rows. The activity_type column is an ENUM of type ('open_session','end_session', 'scroll_down', 'send_message').
+The table shows the user activities for a social media website.\
+Note that each session belongs to exactly one user.\
+
+&NewLine;
+**Goal:** Write an SQL query to find the daily active user count for a period of 30 days ending 2019-07-27 inclusively. A user was active on someday if they made at least one activity on that day.\
+Return the result in any order.\
 
 &NewLine;
 &NewLine;
@@ -412,54 +426,146 @@ Return the result table in any order.\
 
 
 **1142. User Activity for the Past 30 Days II**\
+Table `Activity`: user_id(int), session_id(int), activity_date(date), activity_type(enum). There is no primary key for this table, it may have duplicate rows. The activity_type column is an ENUM of type ('open_session','end_session', 'scroll_down', 'send_message').
+The table shows the user activities for a social media website.\
+Note that each session belongs to exactly one user.\
+
+&NewLine;
+**Goal:** Write an SQL query to find the average number of sessions per user for a period of 30 days ending 2019-07-27 inclusively, rounded to 2 decimal places. The sessions we want to count for a user are those with at least one activity in that time period.\
 
 &NewLine;
 &NewLine;
 
 **1148. Article ViewsI**\
+Table `Views`: article_id(int),author_id(int),viewer_id(int),view_date(date). Each row of this table indicates that some viewer viewed an article (written by some author) on some date.\
+Note that equal `author_id` and `viewer_id` indicate the same person.
+
+
+&NewLine;
+**Goal:** Write an SQL query to find all the authors that viewed at least one of their own articles.\
+Return the result table sorted by id in ascending order.\
 
 &NewLine;
 &NewLine;
 
 
 **1173. Immediate Food Delivery I**\
+Table `Delivery`: deilivery_id(int,primary key), customer_id(int), order_date(date),customer_pref_delivery_date(date). The table holds information about food delivery to customers that make orders at some date and specify a preferred delivery date (on the same order date or after it).\
+
+\
+&NewLine;
+**Goal:** If the customer's preferred delivery date is the same as the order date, then the order is called immediate; otherwise, it is called scheduled.\
+Write an SQL query to find the percentage of immediate orders in the table, rounded to 2 decimal places.\
+
 
 &NewLine;
 &NewLine;
 
 **1179. Reformat Department Table**\
+Table `Department`: (id,month) is the primary key, revenue(int). The table has information about the revenue of each department per month. The month has values in ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].
+
+&NewLine;
+**Goal:** Write an SQL query to reformat the table such that there is a department id column and a revenue column for each month.\
+Return the result table in any order.\
+
 
 &NewLine;
 &NewLine;
+
+
 
 **1211. Queries Quality and Percentage**\
+Table `Queries`: query_name(varchar), result(varchar),position(int),rating(int). There is no primary key for this table.\
+This table contains information collected from some queries on a database.\
+The position column has a value from 1 to 500.\
+The rating column has a value from 1 to 5. Query with rating less than 3 is a poor query.
+
+\
+&NewLine;
+**Goal:** 
+We define query `quality` as:
+
+The average of the ratio between query rating and its position.
+
+We also define `poor query percentage` as:
+
+The percentage of all queries with rating less than 3.
+
+Write an SQL query to find each `query_name`, the `quality` and `poor_query_percentage`.
+
+Both `quality` and `poor_query_percentage` should be rounded to 2 decimal places.
+
+Return the result table in any order.
 
 &NewLine;
 &NewLine;
+
+
 
 **1241. Number of Comments per Post**\
+Table `Submissions`: sub_id(int),parent_id(int). There is no primary key for this table, it may have duplicates.\
+Each row can be a post or comment on the post.\
+parent_id is null for posts.\
+parent_id for comments is sub_id for another post in the table.\
+
+\
+&NewLine;
+**Goal:** Write an SQL query to find the number of comments per post. The result table should contain `post_id` and its corresponding `number_of_comments`.
+
+The `Submissions` table may contain duplicate comments. You should count the number of **unique comments per post**.
+
+The `Submissions` table may contain duplicate posts. You should treat them as one post.
+
+The result table should be ordered by `post_id` in ascending order.
 
 &NewLine;
 &NewLine;
 
 **1251. Average Selling Price**\
+Table `Prices`: (product_id,start_date,end_date) is the primary key, price(int). Each row of the table is the price of the product_id iin the period from start_date to end_date. For each product_id there will be no two overlapping periods. That means there will be no two intersecting periods for the same product_id.\
+Table `UnitSold`: product_id(int),purchase_date(date),units(int). There is no primary key for the table, it may contains duplicates.\
+
+&NewLine;
+**Goal:** Write an SQL query to find the average selling price for each product. average_price should be rounded to 2 decimal places.\
+Return the result table in any order.\
+
 
 &NewLine;
 &NewLine;
 
 
 **1280. Students and Examinations**\
+Table `Students`: studnet_id(int, primary key),student_name\
+Table `Subjects`: subject_name(varchar,primary key)\
+Table `Examinations`: student_id(int),subject_name(varchar).There is no primary key for this table, it may contain duplicates.\
+
+&NewLine;
+**Goal:** Write an SQL query to find the number of times each student attended each exam.\
+Return the result table ordered by `student_id` and `subject_name`.\
 
 &NewLine;
 &NewLine;
 
 
 **1294. Weather Type in Each Country**\
+Table `Countries`: country_id(int, primary key), country_name(varchar)\
+Table `Weather`: (country_id,day) is the primary key, weather_state(int). Each row of the table indicates the weather state in a country for one day.\
+
+&NewLine;
+**Goal:** Write an SQL query to find the type of weather in each country for November 2019.\
+The type of weather is:\
+Cold--weather_state<15, Hot--weather_state>=25, Warm--otherwise.\
+
 
 &NewLine;
 &NewLine;
 
 **1303. Find the Team Size**\
+Table `Employee`: employee_id(int,primary key), team_id(int). Each row of this table contains the ID of each employee and their respective team.\
+
+&NewLine;
+**Goal:** Write an SQL query to find the team size of each of the employees.\
+Return result table in any order.\
 
 &NewLine;
 &NewLine;
