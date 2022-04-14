@@ -565,21 +565,393 @@ ORDER BY rating DESC;
 # where description <> 'boring' and mod(id,2)=1 -->>108ms
 
 
+#######################################################################################################
+#627. Swap Salary
+#Create Table 
+Create table If Not Exists Salary (id int, name varchar(100), sex char(1), salary int);
+Truncate table Salary;
+insert into Salary (id, name, sex, salary) values ('1', 'A', 'm', '2500');
+insert into Salary (id, name, sex, salary) values ('2', 'B', 'f', '1500');
+insert into Salary (id, name, sex, salary) values ('3', 'C', 'm', '5500');
+insert into Salary (id, name, sex, salary) values ('4', 'D', 'f', '500');
+
+#S1 
+update salary set 
+   sex = IF (sex = "m", "f", "m");
+
+#S2 
+update salary 
+set 
+ sex=CASE sex WHEN 'm' THEN 'f'
+              ELSE 'm'
+      END;
+
+
+#######################################################################################################
+#1050. Actors and Directors Who COoperated At Least Three Times 
+#Create Table 
+Create table If Not Exists ActorDirector (actor_id int, director_id int, timestamp int);
+Truncate table ActorDirector;
+insert into ActorDirector (actor_id, director_id, timestamp) values ('1', '1', '0');
+insert into ActorDirector (actor_id, director_id, timestamp) values ('1', '1', '1');
+insert into ActorDirector (actor_id, director_id, timestamp) values ('1', '1', '2');
+insert into ActorDirector (actor_id, director_id, timestamp) values ('1', '2', '3');
+insert into ActorDirector (actor_id, director_id, timestamp) values ('1', '2', '4');
+insert into ActorDirector (actor_id, director_id, timestamp) values ('2', '1', '5');
+insert into ActorDirector (actor_id, director_id, timestamp) values ('2', '1', '6');
+
+#S1 
+SELECT actor_id, director_id
+FROM ActorDirector
+GROUP BY actor_id, director_id
+HAVING COUNT(*)>=3;
+
+#S2 
+SELECT DISTINCT actor_id,director_id
+FROM (
+  SELECT actor,director_id,COUNT(timestamp) OVER(PARTITION BY actor_id,director_id) as number_of_times
+  FROM ActorDirector) AS temp
+WHERE number_of_times>=3;
+
+
+#######################################################################################################
+#1068. Product Sales Analysis I 
+#Create Table 
+Create table If Not Exists Sales (sale_id int, product_id int, year int, quantity int, price int);
+Create table If Not Exists Product (product_id int, product_name varchar(10));
+Truncate table Sales;
+insert into Sales (sale_id, product_id, year, quantity, price) values ('1', '100', '2008', '10', '5000');
+insert into Sales (sale_id, product_id, year, quantity, price) values ('2', '100', '2009', '12', '5000');
+insert into Sales (sale_id, product_id, year, quantity, price) values ('7', '200', '2011', '15', '9000');
+Truncate table Product;
+insert into Product (product_id, product_name) values ('100', 'Nokia');
+insert into Product (product_id, product_name) values ('200', 'Apple');
+insert into Product (product_id, product_name) values ('300', 'Samsung');
+
+#S1 
+SELECT B.product_name, A.year, A.price
+FROM Sales A
+INNER JOIN Product B
+ON A.product_id=B.product_id;
+
+
+#######################################################################################################
+#1069. Product Saless Analysis II 
+#Create Table 
+Create table If Not Exists Sales (sale_id int, product_id int, year int, quantity int, price int);
+Create table If Not Exists Product (product_id int, product_name varchar(10));
+Truncate table Sales;
+insert into Sales (sale_id, product_id, year, quantity, price) values ('1', '100', '2008', '10', '5000');
+insert into Sales (sale_id, product_id, year, quantity, price) values ('2', '100', '2009', '12', '5000');
+insert into Sales (sale_id, product_id, year, quantity, price) values ('7', '200', '2011', '15', '9000');
+Truncate table Product;
+insert into Product (product_id, product_name) values ('100', 'Nokia');
+insert into Product (product_id, product_name) values ('200', 'Apple');
+insert into Product (product_id, product_name) values ('300', 'Samsung');
+
+#S1 
+SELECT product_id,sum(quantity) as total_quantity
+FROM Sales 
+GROUP BY Aproduct_id;
+
+
+#######################################################################################################
+#1075. Project Employees I 
+#Create Table 
+Create table If Not Exists Project (project_id int, employee_id int);
+Create table If Not Exists Employee (employee_id int, name varchar(10), experience_years int);
+Truncate table Project;
+insert into Project (project_id, employee_id) values ('1', '1');
+insert into Project (project_id, employee_id) values ('1', '2');
+insert into Project (project_id, employee_id) values ('1', '3');
+insert into Project (project_id, employee_id) values ('2', '1');
+insert into Project (project_id, employee_id) values ('2', '4');
+Truncate table Employee;
+insert into Employee (employee_id, name, experience_years) values ('1', 'Khaled', '3');
+insert into Employee (employee_id, name, experience_years) values ('2', 'Ali', '2');
+insert into Employee (employee_id, name, experience_years) values ('3', 'John', '1');
+insert into Employee (employee_id, name, experience_years) values ('4', 'Doe', '2');
+
+#S1 
+SELECT A.project_id,ROUND(AVG(experience_years),2) as average_years
+FROM Project as A 
+INNER JOIN Employee as B 
+USING (employee_id)
+GROUP BY A.project_id
+
+#S2 
+SELECT distinct(project_id), ROUND(AVG(experience_years) OVER (PARTITION BY project_id),2) as average_years
+FROM Project p LEFT JOIN Employee e
+ON p.employee_id = e.employee_id
+
+
+#######################################################################################################
+#1076. Project Employees II 
+#Create Table 
+Create table If Not Exists Project (project_id int, employee_id int);
+Create table If Not Exists Employee (employee_id int, name varchar(10), experience_years int);
+Truncate table Project;
+insert into Project (project_id, employee_id) values ('1', '1');
+insert into Project (project_id, employee_id) values ('1', '2');
+insert into Project (project_id, employee_id) values ('1', '3');
+insert into Project (project_id, employee_id) values ('2', '1');
+insert into Project (project_id, employee_id) values ('2', '4');
+Truncate table Employee;
+insert into Employee (employee_id, name, experience_years) values ('1', 'Khaled', '3');
+insert into Employee (employee_id, name, experience_years) values ('2', 'Ali', '2');
+insert into Employee (employee_id, name, experience_years) values ('3', 'John', '1');
+insert into Employee (employee_id, name, experience_years) values ('4', 'Doe', '2');
+
+#S1 
+select project_id
+from Project
+group by project_id
+having count(employee_id) =
+(select count(employee_id) as cnt
+from Project
+group by project_id
+order by cnt desc
+limit 1)
+
+#notice that the below part of code would only return 1 id
+#select project_id
+#from Project
+#group by project_id
+#order by count(*) DESC
+#limit 1;
+
+#S2 
+SELECT project_id
+FROM (
+  SELECT project_id,
+         RANK() OVER (ORDER BY COUNT(DISTINCT p.employee_id) DESC) as rnk 
+  FROM project p 
+  GROUP BY project_id
+) t1 
+WHERE t1.rnk=1;
+
+
+#######################################################################################################
+#1082. Sales Analysis I 
+#Create Table 
+Create table If Not Exists Product (product_id int, product_name varchar(10), unit_price int);
+Create table If Not Exists Sales (seller_id int, product_id int, buyer_id int, sale_date date, quantity int, price int);
+Truncate table Product;
+insert into Product (product_id, product_name, unit_price) values ('1', 'S8', '1000');
+insert into Product (product_id, product_name, unit_price) values ('2', 'G4', '800');
+insert into Product (product_id, product_name, unit_price) values ('3', 'iPhone', '1400');
+Truncate table Sales;
+insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) values ('1', '1', '1', '2019-01-21', '2', '2000');
+insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) values ('1', '2', '2', '2019-02-17', '1', '800');
+insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) values ('2', '2', '3', '2019-06-02', '1', '800');
+insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) values ('3', '3', '4', '2019-05-13', '2', '2800');
+
+
+#S1 
+SELECT seller_id
+FROM (
+  SELECT seller_id,
+     RANK() OVER (ORDER BY SUM(price) DESC) as rnk
+  FROM Sales s 
+  GROUP BY seller_id
+) t1 
+WHERE t1.rnk=1;
+
+#S2 
+SELECT seller_id
+FROM Sales
+GROUP BY seller_id
+HAVING SUM(price)=
+  (SELECT SUM(price) as total
+FROM Sales
+GROUP BY seller_id
+ORDER BY total DESC
+LIMIT 1);
+
+
+#######################################################################################################
+#1083. Sales Analysis II 
+#Create Table 
+Create table If Not Exists Product (product_id int, product_name varchar(10), unit_price int);
+Create table If Not Exists Sales (seller_id int, product_id int, buyer_id int, sale_date date, quantity int, price int);
+Truncate table Product;
+insert into Product (product_id, product_name, unit_price) values ('1', 'S8', '1000');
+insert into Product (product_id, product_name, unit_price) values ('2', 'G4', '800');
+insert into Product (product_id, product_name, unit_price) values ('3', 'iPhone', '1400');
+Truncate table Sales;
+insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) values ('1', '1', '1', '2019-01-21', '2', '2000');
+insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) values ('1', '2', '2', '2019-02-17', '1', '800');
+insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) values ('2', '2', '3', '2019-06-02', '1', '800');
+insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) values ('3', '3', '4', '2019-05-13', '2', '2800');
+
+
+#S1 
+SELECT 
+FROM Sales as S LEFT JOIN Product as P 
+USING (product_id)
+GROUP BY buyer_id 
+HAVING sum(CASE WHEN p.product_name='S8' THEN s.quantity ELSE 0 END)>0 
+ AND 
+       sum(CASE WHEN p.product_name='iPhone' THEN s.quantity ELSE 0 END)=0;
+
+
+#S2 
+SELECT DISTINCT(buyer_id)
+FROM Sales s LEFT JOIN Product p
+ON s.product_id = p.product_id
+WHERE p.product_name = 'S8'
+AND buyer_id NOT IN
+(SELECT buyer_id
+FROM Sales s LEFT JOIN Product p
+ON s.product_id = p.product_id
+WHERE p.product_name = 'iPhone'
+)
+
+#S3 
+with cte1 as (
+  SELECT s.buyer_id
+  sum(case when p.product_name='S8' then 1 else 0 end) as s8_flg,
+  sum(case when p.product_name='iPhone' then 1 else 0 end) as iphn_flg
+ FROM sales as s join product p on s.product_id=p.product_id
+ GROUP BY 1
+)
+SELECT buyer_id FROM cte1 where s8_flg>=1 and iphn_flg=0;
 
 
 
+#######################################################################################################
+#1083. Sales Analysis III 
+#Create Table 
+Create table If Not Exists Product (product_id int, product_name varchar(10), unit_price int);
+Create table If Not Exists Sales (seller_id int, product_id int, buyer_id int, sale_date date, quantity int, price int);
+Truncate table Product;
+insert into Product (product_id, product_name, unit_price) values ('1', 'S8', '1000');
+insert into Product (product_id, product_name, unit_price) values ('2', 'G4', '800');
+insert into Product (product_id, product_name, unit_price) values ('3', 'iPhone', '1400');
+Truncate table Sales;
+insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) values ('1', '1', '1', '2019-01-21', '2', '2000');
+insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) values ('1', '2', '2', '2019-02-17', '1', '800');
+insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) values ('2', '2', '3', '2019-06-02', '1', '800');
+insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) values ('3', '3', '4', '2019-05-13', '2', '2800');
 
 
+#S1 
+#Notice that the where statement can also put another condition to emphasize the product_id 
+#Being seleted are only the ones sold within the Jan-Mar periods 
+# where sale_date between '2019-01-01' and '2019-03-31'
+# and p.product_id not in (select distinct product_id from Sales where sale_date > '2019-03-31' or sale_date < '2019-01-01')
 
 
+SELECT P.product_id,P.product_name
+FROM Product P
+JOIN Sales S ON P.product_id=S.product_id
+GROUP BY S.product_id
+HAVING sum(CASE WHEN YEAR(S.sale_date)=2019 AND month(S.sale_date)>=1 AND month(S.sale_date)<=3 THEN 1 
+           ELSE 0 END)>0 
+  AND sum(CASE WHEN (YEAR(S.sale_date)!=2019 OR (YEAR(S.sale_date)=2019 AND month(S.sale_date)>=4))  THEN 1 
+          ELSE 0 END)=0;
 
 
+#######################################################################################################
+#1113. Reported Posts
+#Create Table 
+Create table If Not Exists Actions (user_id int, post_id int, action_date date, action ENUM('view', 'like', 'reaction', 'comment', 'report', 'share'), extra varchar(10));
+Truncate table Actions;
+insert into Actions (user_id, post_id, action_date, action, extra) values ('1', '1', '2019-07-01', 'view', 'None');
+insert into Actions (user_id, post_id, action_date, action, extra) values ('1', '1', '2019-07-01', 'like', 'None');
+insert into Actions (user_id, post_id, action_date, action, extra) values ('1', '1', '2019-07-01', 'share', 'None');
+insert into Actions (user_id, post_id, action_date, action, extra) values ('2', '4', '2019-07-04', 'view', 'None');
+insert into Actions (user_id, post_id, action_date, action, extra) values ('2', '4', '2019-07-04', 'report', 'spam');
+insert into Actions (user_id, post_id, action_date, action, extra) values ('3', '4', '2019-07-04', 'view', 'None');
+insert into Actions (user_id, post_id, action_date, action, extra) values ('3', '4', '2019-07-04', 'report', 'spam');
+insert into Actions (user_id, post_id, action_date, action, extra) values ('4', '3', '2019-07-02', 'view', 'None');
+insert into Actions (user_id, post_id, action_date, action, extra) values ('4', '3', '2019-07-02', 'report', 'spam');
+insert into Actions (user_id, post_id, action_date, action, extra) values ('5', '2', '2019-07-04', 'view', 'None');
+insert into Actions (user_id, post_id, action_date, action, extra) values ('5', '2', '2019-07-04', 'report', 'racism');
+insert into Actions (user_id, post_id, action_date, action, extra) values ('5', '5', '2019-07-04', 'view', 'None');
+insert into Actions (user_id, post_id, action_date, action, extra) values ('5', '5', '2019-07-04', 'report', 'racism');
+
+#S1 
+SELECT extra as reprot_reason, count(DISTINCT post_id) as report_count
+FROM Actions 
+WHERE action_date='2019-07-05' and action="report"
+GROUP BY extra; 
 
 
+#S2 
+select extra as report_reason, COUNT(distinct post_id) as report_count
+from actions
+where action_date = date_add('2019-07-05', INTERVAL -1 DAY)
+and action = 'report'
+and extra is not null
+group by extra;
 
 
+#######################################################################################################
+#1141. User Activity for the Past 30 Days I 
+#Create Table 
+Create table If Not Exists Activity (user_id int, session_id int, activity_date date, activity_type ENUM('open_session', 'end_session', 'scroll_down', 'send_message'));
+Truncate table Activity;
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('1', '1', '2019-07-20', 'open_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('1', '1', '2019-07-20', 'scroll_down');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('1', '1', '2019-07-20', 'end_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('2', '4', '2019-07-20', 'open_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('2', '4', '2019-07-21', 'send_message');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('2', '4', '2019-07-21', 'end_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('3', '2', '2019-07-21', 'open_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('3', '2', '2019-07-21', 'send_message');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('3', '2', '2019-07-21', 'end_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('4', '3', '2019-06-25', 'open_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('4', '3', '2019-06-25', 'end_session');
+
+#S1 
+SELECT activity_date as day, COUNT(DISTINCT user_id) as active_users
+FROM Activity
+WHERE activity_date BETWEEN '2019-06-28' AND '2019-07-27'
+GROUP BY activity_date
+HAVING count(activity_type)>=1
+
+#notice that having statement can be deleted since it count function only keeps ones that are larger than 0
 
 
+#S2 
+#Use DATEDIFF function to represent a period of 30 days 
+SELECT activity_date AS day, COUNT(DISTINCT user_id) AS active_users
+FROM Activity
+WHERE DATEDIFF("2019-07-27",activity_date)<30
+GROUP BY activity_date;
+
+
+#######################################################################################################
+#1142. User Activity for the Past 30 Days II 
+#Create Table 
+Create table If Not Exists Activity (user_id int, session_id int, activity_date date, activity_type ENUM('open_session', 'end_session', 'scroll_down', 'send_message'));
+Truncate table Activity;
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('1', '1', '2019-07-20', 'open_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('1', '1', '2019-07-20', 'scroll_down');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('1', '1', '2019-07-20', 'end_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('2', '4', '2019-07-20', 'open_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('2', '4', '2019-07-21', 'send_message');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('2', '4', '2019-07-21', 'end_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('3', '2', '2019-07-21', 'open_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('3', '2', '2019-07-21', 'send_message');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('3', '2', '2019-07-21', 'end_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('4', '3', '2019-06-25', 'open_session');
+insert into Activity (user_id, session_id, activity_date, activity_type) values ('4', '3', '2019-06-25', 'end_session');
+
+#S1 
+SELECT IFNULL((round(avg(count_sessions_per_user), 2)), 0.00) as average_sessions_per_user
+FROM (
+SELECT user_id, count( distinct session_id) as count_sessions_per_user
+FROM activity
+WHERE activity_date BETWEEN '2019-06-28' AND '2019-07-27'
+GROUP BY user_id
+) s
+
+#S2 
+SELECT ROUND(IFNULL(COUNT(DISTINCT (session_id)/ COUNT(DISTINCT(user_id),0),2) as average_sessions_per_user
+FROM Activity 
+WHERE activity_date>'2019-06-27' AND activity_date<'2019-07-27';
 
 
 
