@@ -206,7 +206,7 @@ ON A.player_id=B.player_id;
 #S2
 SELECT DISTINCT player_id, device_id
 FROM
-(SELECT *, RANK() OVER (PARTITION BY player_id ORDER BY event_date ASC) as rnk
+(SELECT *, RANK() OVER(PARTITION BY player_id ORDER BY event_date ASC) as rnk
 FROM Activity) as temp
 WHERE rnk = 1;
 
@@ -279,7 +279,7 @@ LIMIT 1;
 #S2
 #Use Window Function
 SELECT customer_number
-FROM (SELECT *, COUNT(order_number)OVER(Partition by customer_number) as number_of_orders FROM orders) as temp
+FROM (SELECT *, COUNT(order_number) OVER(Partition by customer_number) as number_of_orders FROM orders) as temp
 ORDER BY number_of_orders
 DESC LIMIT 1;
 
@@ -363,8 +363,7 @@ insert into RequestAccepted (requester_id, accepter_id, accept_date) values ('3'
 insert into RequestAccepted (requester_id, accepter_id, accept_date) values ('3', '4', '2016/06/10');
 
 #S1
-with accepted
-as
+with accepted as
 (select count(distinct requester_id,accepter_id) as nr
 from RequestAccepted),
 
@@ -444,7 +443,7 @@ insert into Orders (order_id, order_date, com_id, sales_id, amount) values ('3',
 insert into Orders (order_id, order_date, com_id, sales_id, amount) values ('4', '4/1/2014', '1', '4', '25000');
 
 #S1 
-SELECT 
+SELECT name 
 FROM SalesPerson 
 WHERE sales_id NOT IN (SELECT sales_id FROM Orders
                        WHERE  com_id in (SELECT com_id FROM Company WHERE name='RED'));
@@ -483,11 +482,11 @@ SELECT *,
 then 'yes'
 else 'no'
 end) as triangle
-from triangle
+from triangle;
 
 #S4 
-SELECT 
-    *, IF(2*GREATEST(x,y,z) < x+y+z, 'Yes', 'No') AS triangle
+SELECT *, 
+  IF(2*GREATEST(x,y,z) < x+y+z, 'Yes', 'No') AS triangle
 FROM triangle;
 
 
@@ -506,14 +505,14 @@ insert into Point (x) values ('2');
 SELECT min(abs(A.x-B.x)) as shortest 
 FROM point A 
 INNER JOIN point B 
-ON A.x!=B.x
+ON A.x!=B.x;
 
 #S2
 #You don''t need abs() function if you just invert the subtraction.; 
 # Using LAG with MS SQL Server, the solution is not O(n^2);
 
 select min(dif) as shortest from
-(select x-lag(x) OVER (order by x) dif FROM point) as point2
+(select x-lag(x) OVER (order by x) dif FROM point) as point2;
 
 
 #######################################################################################################
@@ -677,12 +676,12 @@ SELECT A.project_id,ROUND(AVG(experience_years),2) as average_years
 FROM Project as A 
 INNER JOIN Employee as B 
 USING (employee_id)
-GROUP BY A.project_id
+GROUP BY A.project_id;
 
 #S2 
 SELECT distinct(project_id), ROUND(AVG(experience_years) OVER (PARTITION BY project_id),2) as average_years
 FROM Project p LEFT JOIN Employee e
-ON p.employee_id = e.employee_id
+ON p.employee_id = e.employee_id;
 
 
 #######################################################################################################
@@ -711,7 +710,7 @@ having count(employee_id) =
 from Project
 group by project_id
 order by cnt desc
-limit 1)
+limit 1);
 
 #notice that the below part of code would only return 1 id
 #select project_id
@@ -786,8 +785,9 @@ insert into Sales (seller_id, product_id, buyer_id, sale_date, quantity, price) 
 
 
 #S1 
-SELECT 
-FROM Sales as S LEFT JOIN Product as P 
+SELECT buyer_id
+FROM Sales as S 
+LEFT JOIN Product as P 
 USING (product_id)
 GROUP BY buyer_id 
 HAVING sum(CASE WHEN p.product_name='S8' THEN s.quantity ELSE 0 END)>0 
@@ -805,7 +805,7 @@ AND buyer_id NOT IN
 FROM Sales s LEFT JOIN Product p
 ON s.product_id = p.product_id
 WHERE p.product_name = 'iPhone'
-)
+);
 
 #S3 
 with cte1 as (
@@ -909,7 +909,7 @@ SELECT activity_date as day, COUNT(DISTINCT user_id) as active_users
 FROM Activity
 WHERE activity_date BETWEEN '2019-06-28' AND '2019-07-27'
 GROUP BY activity_date
-HAVING count(activity_type)>=1
+HAVING count(activity_type)>=1;
 
 #notice that having statement can be deleted since it count function only keeps ones that are larger than 0
 
@@ -946,12 +946,244 @@ SELECT user_id, count( distinct session_id) as count_sessions_per_user
 FROM activity
 WHERE activity_date BETWEEN '2019-06-28' AND '2019-07-27'
 GROUP BY user_id
-) s
+) s;
 
 #S2 
 SELECT ROUND(IFNULL(COUNT(DISTINCT (session_id)/ COUNT(DISTINCT(user_id),0),2) as average_sessions_per_user
 FROM Activity 
 WHERE activity_date>'2019-06-27' AND activity_date<'2019-07-27';
+
+
+
+#######################################################################################################
+#1148. Article Views I 
+#Create Table 
+Create table If Not Exists Views (article_id int, author_id int, viewer_id int, view_date date);
+Truncate table Views;
+insert into Views (article_id, author_id, viewer_id, view_date) values ('1', '3', '5', '2019-08-01');
+insert into Views (article_id, author_id, viewer_id, view_date) values ('1', '3', '6', '2019-08-02');
+insert into Views (article_id, author_id, viewer_id, view_date) values ('2', '7', '7', '2019-08-01');
+insert into Views (article_id, author_id, viewer_id, view_date) values ('2', '7', '6', '2019-08-02');
+insert into Views (article_id, author_id, viewer_id, view_date) values ('4', '7', '1', '2019-07-22');
+insert into Views (article_id, author_id, viewer_id, view_date) values ('3', '4', '4', '2019-07-21');
+insert into Views (article_id, author_id, viewer_id, view_date) values ('3', '4', '4', '2019-07-21');
+
+#S1 
+SELECT distinct author_id as id
+FROM Views 
+WHERE author_id=viewer_id
+order by author_id
+
+
+#######################################################################################################
+#1173. Immediate Food Delivery I 
+#Create Table 
+Create table If Not Exists Delivery (delivery_id int, customer_id int, order_date date, customer_pref_delivery_date date);
+Truncate table Delivery;
+insert into Delivery (delivery_id, customer_id, order_date, customer_pref_delivery_date) values ('1', '1', '2019-08-01', '2019-08-02');
+insert into Delivery (delivery_id, customer_id, order_date, customer_pref_delivery_date) values ('2', '5', '2019-08-02', '2019-08-02');
+insert into Delivery (delivery_id, customer_id, order_date, customer_pref_delivery_date) values ('3', '1', '2019-08-11', '2019-08-11');
+insert into Delivery (delivery_id, customer_id, order_date, customer_pref_delivery_date) values ('4', '3', '2019-08-24', '2019-08-26');
+insert into Delivery (delivery_id, customer_id, order_date, customer_pref_delivery_date) values ('5', '4', '2019-08-21', '2019-08-22');
+insert into Delivery (delivery_id, customer_id, order_date, customer_pref_delivery_date) values ('6', '2', '2019-08-11', '2019-08-13');
+
+#S1
+with imme as 
+(SELECT count(*) as immediate FROM Delivery WHERE order_date=customer_pref_delivery_date),
+allorder as 
+(SELECT count(*) as all FROM Delivery)
+SELECT round(immediate/all*100,2) as immediate_percentage 
+FROM imme,allorder
+
+
+#S2 
+WITH div_table as
+(
+  SELECT CASE
+  WHEN order_date=customer_pref_delivery_date THEN 1
+  WHEN order_date<>customer_pref_delivery_date THEN 0
+  END AS div_cnt
+  FROM Delivery
+)
+SELECT ROUND((SUM(div_cnt)/COUNT(*))*100,2) AS immediate_percentage
+FROM div_table;
+
+
+#S2 
+with imme as 
+(SELECT count(*) as immediate 
+ FROM Delivery WHERE order_date=customer_pref_delivery_date),
+ all1 as 
+ (SELECT count(delivery_id) as all1 
+  FROM Delivery)
+ SELECT coalesce(round(immediate/all1*100,2),0.00) as immediate_percentage
+ FROM imme,all1;
+
+
+#S3 
+#There is no need of using "FROM clause"
+select round(100*(select distinct count(delivery_id) from Delivery
+where order_date = customer_pref_delivery_date
+)/(select distinct count(delivery_id) from Delivery
+),2) as immediate_percentage;
+
+#S4
+select round(sum(order_date=customer_pref_delivery_date)/count(delivery_id)*100,2) as immediate_percentage 
+from Delivery;
+
+
+#######################################################################################################
+#1179. Reformat Department Table 
+#Create Table 
+Create table If Not Exists Department (id int, revenue int, month varchar(5));
+Truncate table Department;
+insert into Department (id, revenue, month) values ('1', '8000', 'Jan');
+insert into Department (id, revenue, month) values ('2', '9000', 'Jan');
+insert into Department (id, revenue, month) values ('3', '10000', 'Feb');
+insert into Department (id, revenue, month) values ('1', '7000', 'Feb');
+insert into Department (id, revenue, month) values ('1', '6000', 'Mar');
+
+#S1 
+###################### Useful method of turning long format to wide format
+SELECT id, 
+  max(case when month='Jan' then revenue else null end) as Jan_Revenue,
+  max(case when month='Feb' then revenue else null end) as Feb_Revenue,
+  max(case when month='Mar' then revenue else null end) as Mar_Revenue, 
+  max(case when month='Apr' then revenue else null end) as Apr_Revenue,
+  max(case when month='May' then revenue else null end) as May_Revenue, 
+  max(case when month='Jun' then revenue else null end) as Jun_Revenue, 
+  max(case when month='Jul' then revenue else null end) as Jul_Revenue, 
+  max(case when month='Aug' then revenue else null end) as Aug_Revenue, 
+  max(case when month='Sep' then revenue else null end) as Sep_Revenue, 
+  max(case when month='Oct' then revenue else null end) as Oct_Revenue, 
+  max(case when month='Nov' then revenue else null end) as Nov_Revenue, 
+  max(case when month='Dec' then revenue else null end) as Dec_Revenue
+FROM Department
+GROUP BY id;
+
+
+
+#######################################################################################################
+#1211. Queries Quality and Percentage 
+#Create Table 
+Create table If Not Exists Queries (query_name varchar(30), result varchar(50), position int, rating int);
+Truncate table Queries;
+insert into Queries (query_name, result, position, rating) values ('Dog', 'Golden Retriever', '1', '5');
+insert into Queries (query_name, result, position, rating) values ('Dog', 'German Shepherd', '2', '5');
+insert into Queries (query_name, result, position, rating) values ('Dog', 'Mule', '200', '1');
+insert into Queries (query_name, result, position, rating) values ('Cat', 'Shirazi', '5', '2');
+insert into Queries (query_name, result, position, rating) values ('Cat', 'Siamese', '3', '3');
+insert into Queries (query_name, result, position, rating) values ('Cat', 'Sphynx', '7', '4');
+
+#S1 
+SELECT query_name, 
+  ROUND(IFNULL(SUM(rating/position)/COUNT(*),0),2) as quality,
+  ROUND(AVG(rating<3,1,0))*100,2) as poor_query_percentage
+FROM Queries
+GROUP BY query_name;
+
+#S2 
+select query_name, round(avg(rating/position),2) as quality ,
+round((sum(case when rating<3 then 1 else 0 end )/count(*))*100,2) as poor_query_percentage
+from Queries
+group by 1;
+
+
+
+#######################################################################################################
+#1241. Number of Comments per Post 
+#Create Table 
+Create table If Not Exists Submissions (sub_id int, parent_id int);
+Truncate table Submissions;
+insert into Submissions (sub_id, parent_id) values ('1', 'None');
+insert into Submissions (sub_id, parent_id) values ('2', 'None');
+insert into Submissions (sub_id, parent_id) values ('1', 'None');
+insert into Submissions (sub_id, parent_id) values ('12', 'None');
+insert into Submissions (sub_id, parent_id) values ('3', '1');
+insert into Submissions (sub_id, parent_id) values ('5', '2');
+insert into Submissions (sub_id, parent_id) values ('3', '1');
+insert into Submissions (sub_id, parent_id) values ('4', '1');
+insert into Submissions (sub_id, parent_id) values ('9', '1');
+insert into Submissions (sub_id, parent_id) values ('10', '2');
+insert into Submissions (sub_id, parent_id) values ('6', '7');
+
+#S1 
+select A.sub_id as post_id ,count(distinct C.sub_id) as number_of_comments 
+from 
+(select distinct sub_id from Submissions where parent_id is null) as A
+left join Submissions C ON
+A.sub_id=C.parent_id group by A.sub_id;
+
+#S2 
+WITH post as 
+(SELECT DISTINCT sub_id,parent_id
+FROM Submissions
+WHERE parent_id is NULL),
+reply as 
+(SELECT DISTINCT sub_id,parent_id
+FROM Submissions
+WHERE parent_id IS NOT NULL)
+
+SELECT s1.sub_id as post_id, IF(s2.sub_id is NULL,0,COUNT(s2.sub_id)) as number_of_comments
+FROM post as s1 
+LEFT JOIN reply as s2 
+ON s1.sub_id=s2.parent_id 
+GROUP BY 1 
+ORDER BY 1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
