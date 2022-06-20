@@ -1,0 +1,136 @@
+---
+title: "Leetcode Easy Questions -- Q584-Q613"
+author: "Wenxiao Zhou"
+date: "3/30/2022"
+output: html_document
+---
+
+**584. FindCustomer Referee**\
+Table `Customer`: id(int, primary key), name(varchar),referee_id(int)\
+Each row of this table indicates the id of a customer, their name, and the id of the customer who referred them.
+
+&NewLine;
+Goal:Write an SQL query to report the IDs of the customer that are not referred by the customer with id = 2.\
+Return the result table in any order.
+
+
+&NewLine;
+&NewLine;
+
+**586. Customer Placing the Largest Number of Orders**\
+Table `Orders`: order_numeber(int,primary key), customer_number(int).\
+
+&NewLine;
+**Goal:** Write an SQL query to find the customer_number for the customer who has placed the largest number of orders.\
+The test cases are generated so that exactly one customer will have placed more orders than any other customer.
+
+
+
+&NewLine;
+&NewLine;
+
+**595. Big Countries**\
+Table `World`: name(varchar, primary key), continent(varchar), area(int), population(int), gdp(int).\
+A country is big if:\
+* it has an area of at least 3000000 $km^{2}$ or\
+* it has a population at least 25000000
+
+&NewLine;
+**Goal:** Write an SQL query to report the name, population, and area of the big countries.\
+Return the result table in any order.
+
+
+&NewLine;
+&NewLine;
+
+
+**596. Classes More Than 5 Students**\
+Table `Courses`: (student,class) is the primary key. 
+Each row of this table indicates the name of a student and the class in which they are enrolled.\
+
+&NewLine;
+**Goal:** Write an SQL query to report all the classes that have at least five students.\
+Return the result table in any order.
+
+
+&NewLine;
+&NewLine;
+
+
+**597. Friend Requests I: Overall Acceptance Rate**\
+Table `FriendRequest`: sender_id(int),send_to_id(int),request_date(date), there is no primary key for the table, it may contain duplicates.\
+This table contains the ID of the user who sent the request, the ID of the user who received the request, and the date of the request.\
+Table `RequestAccepted`: requester_id(int),accepter_id(int),accept_date(date), there is no primary key for this table, it may contain duplicates.\
+This table contains the ID of the user who sent the request, the ID of the user who received the request, and the date when the request was accepted.\
+
+&NewLine;
+**Goal:** Write an SQL query to find the overall acceptance rate of requests, which is the number of acceptance divided by the number of requests. Return the answer rounded to 2 decimals places.
+
+**Note that:**
+
+The accepted requests are not necessarily from the table `friend_request`. In this case, Count the total accepted requests (no matter whether they are in the original requests), and divide it by the number of requests to get the acceptance rate.
+It is possible that a sender sends multiple requests to the same receiver, and a request could be accepted more than once. In this case, the ‘duplicated’ requests or acceptances are only counted once.
+If there are no requests at all, you should return 0.00 as the accept_rate.
+
+&NewLine;
+&NewLine;
+
+
+
+**603. Consecutive Available Seats**\
+Table `Cinema`: seat_id(int,auto-increment primary key column for this table)\
+Each row of this table indicates whether the $i^{th}$ seat is free or not. 1 means free while 0 means occupied.\
+
+
+&NewLine;
+**Goal:** Write an SQL query to report all the consecutive available seats in the cinema.\
+Return the result table ordered by `seat_id` in ascending order.
+
+&NewLine;
+&NewLine;
+
+
+
+**607. Sales Person**\
+Table `SalesPerson`: sales_id(int,primary key), name(varchar), salary(int), commission_rate(int), hire_date(date)\
+Each row of this table indicates the name and the ID of a salesperson alongside their salary, commission rate, and hire date.\
+Table `Company`: com_id(int,primary key), name(varchar),city(varchar)\
+Table `Orders`: order_id(int,primary key),com_id(int,foreign key to com_id from the Company table), sales_id(foreign key to cm_id from SalesPerson table), order_date(date), amount(int)\
+Each row of this table contains information about one order.
+
+&NewLine;
+**Goal:** Write an SQL query to report the names of all the salespersons who did not have any orders related to the company with the name "RED".\
+Return the result table in any order.
+
+
+&NewLine;
+&NewLine;
+
+
+
+**610. Triangle Judgement**\
+Table `Traingle`: (x,y,z) is the primary key column for this table. Each row of this table contains the lengths of three line segments.\
+
+
+&NewLine;
+**Goal:** Write an SQL query to report for every three line segments whether they can form a triangle.\
+Return the result table in any order.
+
+&NewLine;
+&NewLine;
+
+
+
+**613. Shortest Distance in a Line**\
+Table `Point`: x(int,primary key)\
+Each row of this table indicates the position of a point on the x-axis.\
+
+&NewLine;
+**Goal:** Write an SQL query to report the shortest distance between any two points from the `Point` table.
+
+
+&NewLine;
+&NewLine;
+
+
+
