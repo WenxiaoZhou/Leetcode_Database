@@ -1,0 +1,121 @@
+---
+title: "Leetcode Easy Questions -- Q619-Q1082"
+author: "Wenxiao Zhou"
+date: "4/5/2022"
+output: html_document
+---
+
+
+**619. Biggest Single Number**\
+Table `MyNumbers`: num(int), no primary key for this table, it may contain duplicates.
+
+&NewLine; 
+**Goal:** A single number is a number that appeared only once in the MyNumbers table.\
+Write an SQL query to report the largest single number. If there is no single number, report null.
+
+
+&NewLine;
+&NewLine;
+
+
+
+**620. Not Boring Movies**\
+Table `Cinema`: id(int,primary key), movie(varchar),description(varchar),rating(float)\
+Each row contains information about the name of a movie, its genre, and its rating. Rating is a 2 decimal places float in the range [0,10].
+
+
+&NewLine; 
+**Goal:** Write an SQL query to report the movies with an odd-numbered ID and a description that is not "boring".\
+Return the result table ordered by rating in descending order.
+
+&NewLine;
+&NewLine;
+
+
+
+**627. Swap Salary**\
+Table `Salary`: id(int,primary key), sex(ENUM, type ('m','f')). This table contains information about an employee.\
+
+&NewLine; 
+**Goal:** Write an SQL query to swap all 'f' and 'm' values (i.e., change all 'f' values to 'm' and vice versa) with a single update statement and no intermediate temporary tables.
+
+Note that you must write a single update statement, do not write any select statement for this problem.
+
+
+&NewLine;
+&NewLine;
+
+
+
+**1050. Actors and Directors Who Cooperated At Least Three Times**\
+Table `ActorDirector`: timestamp(int,primary key), actor_id(int),director_id(int)\
+
+&NewLine; 
+**Goal:** Write a SQL query for a report that provides the pairs (actor_id, director_id) where the actor has cooperated with the director at least three times.\
+Return the result table in any order.
+
+&NewLine;
+&NewLine;
+
+
+**1068. Product Sales Analysis I**\
+Table `Sales`:(sale_id,year) is primary key, product_id is foreign key to `Product` Table. Each row of this table shows a sale on the product product_id in a certain year. Note the price is per unit.\
+Table `Product`: product_id(int, primary key),product_name(varchar)\
+
+&NewLine;
+**Goal:** Write an SQL query to report the total quantity sold for every product id.\
+Return the results in any order.\
+
+&NewLine;
+&NewLine;
+
+
+**1069. Product Sales Analysis II**\
+Table `Sales`:(sale_id,year) is primary key, product_id is foreign key to `Product` Table. Each row of this table shows a sale on the product product_id in a certain year. Note the price is per unit.\
+Table `Product`: product_id(int, primary key),product_name(varchar)\
+
+&NewLine;
+**Goal:** Write an SQL query to report the product_name, year, price for each sale_id in the `Sales` table.\
+Return the results in any order.\
+
+&NewLine;
+&NewLine;
+
+
+
+**1075. Project Employees I**\
+Table `Project`: (project_id,employee_id) is the primary key, employee_id is a foreign key to `Employee` table. Each row indicates the employee with employee_id is working on the project with project_id.\
+Table `Employee`: employee_id is the primary key, name(varchar),experience_years(int)\
+
+&NewLine;
+**Goal:** Write an SQL query to report the average experience years of all the employees for each project, rounded to 2 digits.\
+Return the result table in any order.\
+
+&NewLine;
+&NewLine;
+
+
+**1076. Project Employees II**\
+Table `Project`: (project_id,employee_id) is the primary key, employee_id is a foreign key to `Employee` table. Each row indicates the employee with employee_id is working on the project with project_id.\
+Table `Employee`: employee_id is the primary key, name(varchar),experience_years(int)\
+
+&NewLine;
+**Goal:** Write an SQL query to report all the projects taht have the most employees.\
+Return the results in any order.\
+
+&NewLine;
+&NewLine;
+
+
+**1082. Sales Analysis I**\
+Table `Product`: product_id(int,primary key),product_name(varchar),unit_price(int).\
+Table `Sales`: seller_id(int), product_id(foreign key to `Product` table, buyer_id(int),sale_date(int),quantity(int),price(int). There is no primary key, it cna have repeated rows.\
+
+&NewLine;
+**Goal:** Write an SQL query to report the best seller by total sales price, if there is a tie, report them all.\
+Return the result table in any order.\
+
+&NewLine;
+&NewLine;
+
+
