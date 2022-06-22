@@ -1,0 +1,135 @@
+---
+title: "Leetcode Easy Questions -- Part 1"
+author: "Wenxiao Zhou"
+date: "3/23/2022"
+output: html_document
+---
+
+**1083. Sales Analysis II**\
+Table `Product`: product_id(int,primary key),product_name(varchar),unit_price(int).\
+Table `Sales`: seller_id(int), product_id(foreign key to `Product` table, buyer_id(int),sale_date(int),quantity(int),price(int). There is no primary key, it cna have repeated rows.\
+
+&NewLine;
+**Goal:** Write an SQL query to report the buyers who have bought S8 but not iPhone. Note that S8 and iPhone are products present in the `Product` table.\
+Return the result table in any order.\
+
+&NewLine;
+&NewLine;
+
+
+
+**1084. Sales Analysis III**\
+Table `Product`: product_id(int,primary key),product_name(varchar),unit_price(int).\
+Table `Sales`: seller_id(int), product_id(foreign key to `Product` table, buyer_id(int),sale_date(int),quantity(int),price(int). There is no primary key, it cna have repeated rows.\
+
+&NewLine;
+**Goal:** Write an SQL query to report the products that were only sold in the spring of 2019. That is, between 2019-01-01 and 2019-03-31 inclusive.\
+Return the result table in any order.\
+
+&NewLine;
+&NewLine;
+
+
+
+**1113. Reported Posts**\
+Table `Actions`: user_id(int),post_id(int),action_date(date),action(enum),extra(varchar). There is no primary key for the table, it may have duplicate rows.\
+The action column is an ENUM type of ('view', 'like', 'reaction', 'comment', 'report', 'share').\
+The extra column has optional information about the action, such as a reason for the report or a type of reaction.\
+
+&NewLine;
+**Goal:** Write an SQL query to report the number of posts reported yesterday for each report reason. Assume today is 2019-07-05.\
+Return the result table in any order.\
+
+&NewLine;
+&NewLine;
+
+
+
+**1141. User Activity for the Past 30 Days I**\
+Table `Activity`: user_id(int), session_id(int), activity_date(date), activity_type(enum). There is no primary key for this table, it may have duplicate rows. The activity_type column is an ENUM of type ('open_session','end_session', 'scroll_down', 'send_message').
+The table shows the user activities for a social media website.\
+Note that each session belongs to exactly one user.\
+
+&NewLine;
+**Goal:** Write an SQL query to find the daily active user count for a period of 30 days ending 2019-07-27 inclusively. A user was active on someday if they made at least one activity on that day.\
+Return the result in any order.\
+
+&NewLine;
+&NewLine;
+
+
+
+**1142. User Activity for the Past 30 Days II**\
+Table `Activity`: user_id(int), session_id(int), activity_date(date), activity_type(enum). There is no primary key for this table, it may have duplicate rows. The activity_type column is an ENUM of type ('open_session','end_session', 'scroll_down', 'send_message').
+The table shows the user activities for a social media website.\
+Note that each session belongs to exactly one user.\
+
+&NewLine;
+**Goal:** Write an SQL query to find the average number of sessions per user for a period of 30 days ending 2019-07-27 inclusively, rounded to 2 decimal places. The sessions we want to count for a user are those with at least one activity in that time period.\
+
+&NewLine;
+&NewLine;
+
+**1148. Article ViewsI**\
+Table `Views`: article_id(int),author_id(int),viewer_id(int),view_date(date). Each row of this table indicates that some viewer viewed an article (written by some author) on some date.\
+Note that equal `author_id` and `viewer_id` indicate the same person.
+
+
+&NewLine;
+**Goal:** Write an SQL query to find all the authors that viewed at least one of their own articles.\
+Return the result table sorted by id in ascending order.\
+
+&NewLine;
+&NewLine;
+
+
+**1173. Immediate Food Delivery I**\
+Table `Delivery`: deilivery_id(int,primary key), customer_id(int), order_date(date),customer_pref_delivery_date(date). The table holds information about food delivery to customers that make orders at some date and specify a preferred delivery date (on the same order date or after it).\
+
+\
+&NewLine;
+**Goal:** If the customer's preferred delivery date is the same as the order date, then the order is called immediate; otherwise, it is called scheduled.\
+Write an SQL query to find the percentage of immediate orders in the table, rounded to 2 decimal places.\
+
+
+&NewLine;
+&NewLine;
+
+**1179. Reformat Department Table**\
+Table `Department`: (id,month) is the primary key, revenue(int). The table has information about the revenue of each department per month. The month has values in ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].
+
+&NewLine;
+**Goal:** Write an SQL query to reformat the table such that there is a department id column and a revenue column for each month.\
+Return the result table in any order.\
+
+
+&NewLine;
+&NewLine;
+
+
+
+**1211. Queries Quality and Percentage**\
+Table `Queries`: query_name(varchar), result(varchar),position(int),rating(int). There is no primary key for this table.\
+This table contains information collected from some queries on a database.\
+The position column has a value from 1 to 500.\
+The rating column has a value from 1 to 5. Query with rating less than 3 is a poor query.
+
+\
+&NewLine;
+**Goal:** 
+We define query `quality` as:
+
+The average of the ratio between query rating and its position.
+
+We also define `poor query percentage` as:
+
+The percentage of all queries with rating less than 3.
+
+Write an SQL query to find each `query_name`, the `quality` and `poor_query_percentage`.
+
+Both `quality` and `poor_query_percentage` should be rounded to 2 decimal places.
+
+Return the result table in any order.
+
+&NewLine;
+&NewLine;
